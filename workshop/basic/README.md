@@ -73,3 +73,12 @@ $export KAFKA_URL=localhost:19092
 $export SCHEMA_REGISTRY_URL=http://localhost:8081
 $go run cmd/consumer/main.go
 ```
+
+## 6. Create Kafka UI
+```
+$export SSL_SECRET=datahub
+$docker compose up -d kafka-ui
+$docker compose ps
+```
+Kafka UI
+* http://localhost:8080/
