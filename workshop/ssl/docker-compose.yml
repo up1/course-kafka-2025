@@ -7,6 +7,14 @@ services:
       - "2181:2181"
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_SSL_CLIENT_ENABLE: "true"
+      ZOOKEEPER_SSL_KEYSTORE_LOCATION: /etc/kafka/secrets/zookeeper.keystore.jks
+      ZOOKEEPER_SSL_KEYSTORE_PASSWORD: ${SSL_SECRET}
+      ZOOKEEPER_SSL_TRUSTSTORE_LOCATION: /etc/kafka/secrets/zookeeper.truststore.jks
+      ZOOKEEPER_SSL_TRUSTSTORE_PASSWORD: ${SSL_SECRET}
+    volumes:
+      - ./secrets:/etc/kafka/secrets
     networks:
       - kafka-network
 
@@ -16,21 +24,25 @@ services:
     hostname: kafka
     ports:
       - "9092:9092"
-      - "19092:19092"
     depends_on:
       - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENERS: SSL://0.0.0.0:9092
       KAFKA_ADVERTISED_LISTENERS: SSL://kafka:9092
       KAFKA_SSL_KEYSTORE_FILENAME: kafka.keystore.jks
-      KAFKA_SSL_KEYSTORE_CREDENTIALS: cert_creds
-      KAFKA_SSL_KEY_CREDENTIALS: cert_creds
+      KAFKA_SSL_KEYSTORE_LOCATION: /etc/kafka/secrets/kafka.keystore.jks
+      KAFKA_SSL_KEYSTORE_PASSWORD: ${SSL_SECRET}
       KAFKA_SSL_TRUSTSTORE_FILENAME: kafka.truststore.jks
+      KAFKA_SSL_TRUSTSTORE_LOCATION: /etc/kafka/secrets/kafka.truststore.jks
+      KAFKA_SSL_TRUSTSTORE_PASSWORD: ${SSL_SECRET}
       KAFKA_SSL_TRUSTSTORE_CREDENTIALS: cert_creds
-      KAFKA_SSL_CLIENT_AUTH: required
+      KAFKA_SSL_KEY_CREDENTIALS: cert_creds
+      KAFKA_SSL_KEYSTORE_CREDENTIALS: cert_creds
       KAFKA_SECURITY_PROTOCOL: SSL
-      KAFKA_SECURITY_INTER_BROKER_PROTOCOL: SSL
+      KAFKA_SSL_CLIENT_AUTH: required
+      KAFKA_SECURITY_INTER_BROKER_PROTOCOL: "SSL"
       KAFKA_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: " "
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     volumes:
@@ -48,8 +60,8 @@ services:
       - "8081:8081"
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
-      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper:2181
       SCHEMA_REGISTRY_LISTENERS: https://schema-registry:8081
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper:2181
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: SSL://kafka:9092
       SCHEMA_REGISTRY_KAFKASTORE_SECURITY_PROTOCOL: SSL
       SCHEMA_REGISTRY_KAFKASTORE_SSL_KEYSTORE_LOCATION: /etc/schema-registry/secrets/schema-registry.keystore.jks
@@ -62,9 +74,7 @@ services:
       SCHEMA_REGISTRY_SSL_TRUSTSTORE_LOCATION: /etc/schema-registry/secrets/schema-registry.truststore.jks
       SCHEMA_REGISTRY_KAFKASTORE_SSL_TRUSTSTORE_PASSWORD: ${SSL_SECRET}
       SCHEMA_REGISTRY_SSL_TRUSTSTORE_PASSWORD: ${SSL_SECRET}
-      SCHEMA_REGISTRY_SCHEMA_REGISTRY_INTER_INSTANCE_PROTOCOL: https
-      SCHEMA_REGISTRY_SSL_CLIENT_AUTH: true
-      SCHEMA_REGISTRY_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: "https"
+      SCHEMA_REGISTRY_INTER_INSTANCE_PROTOCOL: https
     volumes:
       - ./secrets:/etc/schema-registry/secrets
     networks:
@@ -86,6 +96,18 @@ services:
     volumes:
       - ./secrets/kafka.keystore.jks:/kafka.keystore.jks
       - ./secrets/kafka.truststore.jks:/kafka.truststore.jks
+    networks:
+      - kafka-network
+
+  producer:
+    build:
+      context: ./demo
+      dockerfile: Dockerfile
+    environment:
+      KAFKA_URL: kafka:9092
+      SCHEMA_REGISTRY_URL: http://localhost:8081
+    volumes:
+      - ./secrets:/etc/kafka/secrets
     networks:
       - kafka-network
 
