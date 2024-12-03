@@ -16,6 +16,21 @@ $docker compose ps
 Kafka bootstrap server
 * http://localhost:19092
 
+Run client with Go
+```
+$cd demo
+$go mod tidy
+
+$export KAFKA_URL=localhost:19092
+
+# Producer
+$go run cmd/hello_producer.go
+
+# Consumer with groups
+$go run cmd/hello_consumer.go group1
+$go run cmd/hello_consumer.go group1
+```
+
 
 ## 2. Create Schema registry server
 ```
