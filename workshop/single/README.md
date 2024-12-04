@@ -31,7 +31,6 @@ $go run cmd/hello_consumer.go group1
 $go run cmd/hello_consumer.go group1
 ```
 
-
 ## 2. Create Schema registry server
 ```
 $docker compose up -d schema-registry
@@ -42,9 +41,27 @@ Schema registry
 * http://localhost:8081
 * http://localhost:8081/schemas
 
-## 3. Generate schema with Protocol Buffer
-* [protoc](https://grpc.io/docs/protoc-installation/)
-* [proto-gen-go](https://grpc.io/docs/languages/go/quickstart/)
+## 3. Working with JSON Schema
+
+Run client with Go
+```
+$cd demo
+$go mod tidy
+
+$export KAFKA_URL=localhost:19092
+$export SCHEMA_REGISTRY_URL=http://localhost:8081
+
+# Producer
+$go run cmd/json_producer.go
+
+# Consumer with groups
+$go run cmd/json_consumer.go group1
+```
+
+## 4. Working with Protocol Buffer
+* Generate schema with Protocol Buffer
+  * [protoc](https://grpc.io/docs/protoc-installation/)
+  * [proto-gen-go](https://grpc.io/docs/languages/go/quickstart/)
 
 ```
 $cd demo
@@ -53,7 +70,7 @@ $protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=
 $mv protobuf/demo*.go pkg/message.v1/
 ```
 
-## 4. Start producer
+### 4.1 Start producer
 ```
 $cd demo
 $go mod tidy
@@ -79,7 +96,7 @@ $curl http://localhost:8081/schemas
 ```
 
 
-## 5. Start consumer
+### 4.2 Start consumer
 ```
 $cd demo
 $go mod tidy
@@ -89,7 +106,7 @@ $export SCHEMA_REGISTRY_URL=http://localhost:8081
 $go run cmd/consumer/main.go
 ```
 
-## 6. Create Kafka UI
+## 5. Create Kafka UI
 ```
 $export SSL_SECRET=datahub
 $docker compose up -d kafka-ui
