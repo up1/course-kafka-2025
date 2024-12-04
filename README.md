@@ -6,3 +6,5 @@
 * Monitoring
 * Performance
 * Coding
+  * Go
+    * [Confluent's Apache Kafka Golang client](https://github.com/confluentinc/confluent-kafka-go)
