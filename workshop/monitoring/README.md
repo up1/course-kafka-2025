@@ -22,11 +22,17 @@ $docker compose up -d zookeeper
 $docker compose ps
 ```  
 
+Access to url of metric
+- http://localhost:7072/metric
+
 ## Start Kafka broker
 ```
 $docker compose up -d kafka
 $docker compose ps
 ```  
+
+Access to url of metric
+- http://localhost:7071/metric
 
 ## Start Prometheus
 
