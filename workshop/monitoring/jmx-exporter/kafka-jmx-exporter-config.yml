@@ -1,0 +1,9 @@
+# Kafka JMX Exporter Configuration (kafka-jmx-exporter-config.yml)
+rules:
+  - pattern: kafka.(\w+)<type=(.+), name=(.+)>(\w+)
+    name: kafka_$1_$2_$3_$4
+    type: GAUGE
+
+  - pattern: kafka.cluster<type=(.+), name=(.+)>(\w+)
+    name: kafka_cluster_$1_$2_$3
+    type: GAUGE

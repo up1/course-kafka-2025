@@ -1,0 +1,84 @@
+services:
+  # Kafka Broker
+  kafka:
+    image: confluentinc/cp-kafka:${VERSION}
+    hostname: kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+      - "9997:9997"
+      - 7071:7071
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:29092,EXTERNAL://localhost:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_JMX_PORT: 9997
+      KAFKA_JMX_OPTS: -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent.jar=7071:/opt/jmx-exporter/kafka-jmx-exporter-config.yml -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.rmi.port=9999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
+    volumes:
+      - ./jmx-exporter:/opt/jmx-exporter
+    depends_on:
+      - zookeeper
+      # - jmx-exporter
+
+  # Zookeeper
+  zookeeper:
+    image: confluentinc/cp-zookeeper:${VERSION}
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+      - "9998:9998"
+      - 7072:7072
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      EXTRA_ARGS: -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent.jar=7072:/opt/jmx-exporter/zookeeper-jmx-exporter-config.yml -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.rmi.port=9999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
+    volumes:
+      - ./jmx-exporter:/opt/jmx-exporter
+
+  # JMX Exporter
+  # jmx-exporter:
+  #   image: bitnami/jmx-exporter:latest
+  #   container_name: jmx-exporter
+  #   ports:
+  #     - "7071:7071"
+  #     - "7072:7072"
+  #   volumes:
+  #     - ./jmx-exporter:/opt/jmx-exporter
+
+  # Prometheus
+  prometheus:
+    image: prom/prometheus:v3.0.1
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/alerts.yml:/etc/prometheus/alerts.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+
+  # Grafana
+  grafana:
+    image: grafana/grafana:11.4.0
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+       - ./grafana/datasources:/var/lib/grafana/datasources
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_DASHBOARDS_DEFAULT_HOME=/var/lib/grafana/dashboards
+
+volumes:
+  prometheus_data:
+  grafana_data:

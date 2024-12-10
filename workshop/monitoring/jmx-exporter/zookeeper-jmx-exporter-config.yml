@@ -1,0 +1,37 @@
+# # Zookeeper JMX Exporter Configuration (zookeeper-jmx-exporter-config.yml)
+# rules:
+#   - pattern: org.apache.ZooKeeper<(.+)>(\w+)
+#     name: zookeeper_$1_$2
+#     type: GAUGE
+
+#   - pattern: org.apache.ZooKeeper<(.+), name=(.+)>(\w+)
+#     name: zookeeper_$1_$2_$3
+#     type: GAUGE
+
+lowercaseOutputName: true
+lowercaseOutputLabelNames: true
+rules:
+  - pattern: "org.apache.ZooKeeperService<name0=ReplicatedServer_id(\\d)><>(\\w+)"
+    name: "zookeeper_$2"
+  - pattern: "org.apache.ZooKeeperService<name0=ReplicatedServer_id(\\d), name1=replica.(\\d)><>(\\w+)"
+    name: "zookeeper_$3"
+    labels:
+      replicaId: "$2"
+  - pattern: "org.apache.ZooKeeperService<name0=ReplicatedServer_id(\\d), name1=replica.(\\d), name2=(\\w+)><>(\\w+)"
+    name: "zookeeper_$4"
+    labels:
+      replicaId: "$2"
+      memberType: "$3"
+  - pattern: "org.apache.ZooKeeperService<name0=ReplicatedServer_id(\\d), name1=replica.(\\d), name2=(\\w+), name3=(\\w+)><>(\\w+)"
+    name: "zookeeper_$4_$5"
+    labels:
+      replicaId: "$2"
+      memberType: "$3"
+
+  - pattern: org.apache.ZooKeeper<(.+)>(\w+)
+    name: zookeeper_$1_$2
+    type: GAUGE
+
+  - pattern: org.apache.ZooKeeper<(.+), name=(.+)>(\w+)
+    name: zookeeper_$1_$2_$3
+    type: GAUGE

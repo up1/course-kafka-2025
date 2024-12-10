@@ -1,0 +1,22 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - alerts.yml
+
+scrape_configs:
+  # Kafka JMX Metrics
+  - job_name: 'kafka'
+    static_configs:
+      - targets: ['kafka:7071']
+
+  # Zookeeper JMX Metrics
+  - job_name: 'zookeeper'
+    static_configs:
+      - targets: ['zookeeper:7072']
+
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['prometheus:9090']

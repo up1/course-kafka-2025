@@ -1,0 +1,40 @@
+groups:
+- name: kafka_alerts
+  rules:
+  - alert: KafkaBrokerDown
+    expr: up{job="kafka"} == 0
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Kafka Broker is Down"
+      description: "Kafka Broker has been down for more than 5 minutes."
+
+  - alert: KafkaHighPartitionCount
+    expr: kafka_server_replicamanager_partitioncount > 100
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High Partition Count"
+      description: "Kafka broker has more than 100 partitions for an extended period."
+
+- name: zookeeper_alerts
+  rules:
+  - alert: ZookeeperDown
+    expr: up{job="zookeeper"} == 0
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Zookeeper is Down"
+      description: "Zookeeper has been down for more than 5 minutes."
+
+  - alert: ZookeeperHighLatency
+    expr: zookeeper_latency_max > 1000
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High Zookeeper Latency"
+      description: "Zookeeper is experiencing high latency for an extended period."
