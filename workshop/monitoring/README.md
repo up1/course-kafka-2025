@@ -36,7 +36,6 @@ Access to url of metric
 
 ## Start Prometheus
 
-Prometheus server
 ```
 $docker compose up -d prometheus
 $docker compose ps
@@ -46,4 +45,12 @@ Access to urls
 - http://localhost:9090/targets
 
 ## Start Grafana
-
+```
+$docker compose up -d grafana
+$docker compose ps
+```
+Access to urls
+- http://localhost:3000
+- http://localhost:3000/dashboards
+  * Kafka 
+  * Zookeeper

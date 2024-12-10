@@ -38,16 +38,6 @@ services:
     volumes:
       - ./jmx-exporter:/opt/jmx-exporter
 
-  # JMX Exporter
-  # jmx-exporter:
-  #   image: bitnami/jmx-exporter:latest
-  #   container_name: jmx-exporter
-  #   ports:
-  #     - "7071:7071"
-  #     - "7072:7072"
-  #   volumes:
-  #     - ./jmx-exporter:/opt/jmx-exporter
-
   # Prometheus
   prometheus:
     image: prom/prometheus:v3.0.1
@@ -73,11 +63,12 @@ services:
       - "3000:3000"
     volumes:
       - grafana_data:/var/lib/grafana
-      - ./grafana/dashboards:/var/lib/grafana/dashboards
-       - ./grafana/datasources:/var/lib/grafana/datasources
+      - ./grafana:/etc/grafana/provisioning/
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_DASHBOARDS_DEFAULT_HOME=/var/lib/grafana/dashboards
+      # disble login
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
 
 volumes:
   prometheus_data:
