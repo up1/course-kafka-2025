@@ -9,12 +9,12 @@ scrape_configs:
   # Kafka JMX Metrics
   - job_name: 'kafka'
     static_configs:
-      - targets: ['kafka:7071']
+      - targets: ['kafka-1:7071', 'kafka-2:7071']
 
   # Zookeeper JMX Metrics
   - job_name: 'zookeeper'
     static_configs:
-      - targets: ['zookeeper:7072']
+      - targets: ['zookeeper-1:7071', 'zookeeper-2:7071', 'zookeeper-3:7071']
 
   # Prometheus itself
   - job_name: 'prometheus'

@@ -1,42 +1,116 @@
 services:
-  # Kafka Broker
-  kafka:
-    image: confluentinc/cp-kafka:${VERSION}
-    hostname: kafka
-    container_name: kafka
+  # Zookeeper
+  zookeeper-1:
+    image: confluentinc/cp-zookeeper:${VERSION}
+    container_name: zookeeper-1
+    hostname: zookeeper-1
     ports:
-      - "9092:9092"
-      - "9997:9997"
-      - 7071:7071
+      - 12181:2181
+      - 17071:7071
     environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: zookeeper-1:2888:3888;zookeeper-2:2888:3888;zookeeper-3:2888:3888
+      ZOOKEEPER_4LW_COMMANDS_WHITELIST: "*"
+      EXTRA_ARGS: -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent.jar=7071:/opt/jmx-exporter/zookeeper-jmx-exporter-config.yml -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.rmi.port=9999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
+      KAFKA_JVM_PERFORMANCE_OPTS: "-Djute.maxbuffer=4294967296"
+    volumes:
+      - ./jmx-exporter:/opt/jmx-exporter
+
+  zookeeper-2:
+    image: confluentinc/cp-zookeeper:${VERSION}
+    container_name: zookeeper-2
+    hostname: zookeeper-2
+    ports:
+      - 12182:2181
+      - 17072:7071
+    environment:
+      ZOOKEEPER_SERVER_ID: 2
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: zookeeper-1:2888:3888;zookeeper-2:2888:3888;zookeeper-3:2888:3888
+      ZOOKEEPER_4LW_COMMANDS_WHITELIST: "*"
+      EXTRA_ARGS: -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent.jar=7071:/opt/jmx-exporter/zookeeper-jmx-exporter-config.yml -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.rmi.port=9999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
+      KAFKA_JVM_PERFORMANCE_OPTS: "-Djute.maxbuffer=4294967296"
+    volumes:
+      - ./jmx-exporter:/opt/jmx-exporter
+
+  zookeeper-3:
+    image: confluentinc/cp-zookeeper:${VERSION}
+    container_name: zookeeper-3
+    hostname: zookeeper-3
+    ports:
+      - 12183:2181
+      - 17073:7071
+    environment:
+      ZOOKEEPER_SERVER_ID: 3
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: zookeeper-1:2888:3888;zookeeper-2:2888:3888;zookeeper-3:2888:3888
+      ZOOKEEPER_4LW_COMMANDS_WHITELIST: "*"
+      EXTRA_ARGS: -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent.jar=7071:/opt/jmx-exporter/zookeeper-jmx-exporter-config.yml -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.rmi.port=9999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
+      KAFKA_JVM_PERFORMANCE_OPTS: "-Djute.maxbuffer=4294967296"
+    volumes:
+      - ./jmx-exporter:/opt/jmx-exporter
+
+  # Kafka Broker
+  kafka-1:
+    image: confluentinc/cp-kafka:${VERSION}
+    container_name: kafka-1
+    hostname: kafka-1
+    ports:
+      - "19092:19092"
+      - 17074:7071
+    environment:
+      ZOOKEEPER_SASL_ENABLED: 'false'
       KAFKA_BROKER_ID: 1
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:29092,EXTERNAL://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-1:9092,EXTERNAL://localhost:19092
+      KAFKA_LISTENERS: INTERNAL://kafka-1:9092,EXTERNAL://:19092
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181,zookeeper-2:2181,zookeeper-3:2181
       KAFKA_JMX_PORT: 9997
       KAFKA_JMX_OPTS: -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent.jar=7071:/opt/jmx-exporter/kafka-jmx-exporter-config.yml -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.rmi.port=9999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
+      KAFKA_MIN_INSYNC_REPLICAS: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     volumes:
       - ./jmx-exporter:/opt/jmx-exporter
     depends_on:
-      - zookeeper
-      # - jmx-exporter
-
-  # Zookeeper
-  zookeeper:
-    image: confluentinc/cp-zookeeper:${VERSION}
-    hostname: zookeeper
-    container_name: zookeeper
+      - zookeeper-1
+      - zookeeper-2
+      - zookeeper-3
+  
+  kafka-2:
+    image: confluentinc/cp-kafka:${VERSION}
+    container_name: kafka-2
+    hostname: kafka-2
     ports:
-      - "2181:2181"
-      - "9998:9998"
-      - 7072:7072
+      - "19093:19093"
     environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-      EXTRA_ARGS: -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent.jar=7072:/opt/jmx-exporter/zookeeper-jmx-exporter-config.yml -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.rmi.port=9999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
+      ZOOKEEPER_SASL_ENABLED: 'false'
+      KAFKA_BROKER_ID: 2
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-2:9092,EXTERNAL://localhost:19093
+      KAFKA_LISTENERS: INTERNAL://kafka-2:9092,EXTERNAL://:19093
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181,zookeeper-2:2181,zookeeper-3:2181
+      KAFKA_JMX_PORT: 9997
+      KAFKA_JMX_OPTS: -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent.jar=7071:/opt/jmx-exporter/kafka-jmx-exporter-config.yml -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.rmi.port=9999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
+      KAFKA_MIN_INSYNC_REPLICAS: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     volumes:
       - ./jmx-exporter:/opt/jmx-exporter
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+      - zookeeper-3
 
   # Prometheus
   prometheus:
