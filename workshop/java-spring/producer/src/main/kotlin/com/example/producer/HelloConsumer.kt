@@ -21,6 +21,7 @@ class ExampleConsumer {
         @Header(KafkaHeaders.OFFSET) offsets: Int,
         acknowledgment: Acknowledgment) {
         logger.info("Message received: [$message] in partition=[$partition] with offset=[$offsets]")
+        // Disable commit
 //        acknowledgment.acknowledge()
     }
 }
