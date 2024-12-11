@@ -32,7 +32,7 @@ Access to url of metric
 ## Start Kafka broker 2 nodes
 ```
 $docker compose up -d kafka-1
-$docker compose up -d kafka-1
+$docker compose up -d kafka-2
 $docker compose ps
 ```  
 
