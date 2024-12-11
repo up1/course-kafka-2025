@@ -19,6 +19,7 @@ class ExampleConsumer {
         @Payload message: String,
         @Header(KafkaHeaders.RECEIVED_PARTITION) partition: Int,
         @Header(KafkaHeaders.OFFSET) offsets: Int,
+        // Manual mode
         acknowledgment: Acknowledgment) {
         logger.info("Message received: [$message] in partition=[$partition] with offset=[$offsets]")
         // Disable commit
