@@ -167,7 +167,7 @@ services:
   consumer:
     image: consumer:1.0
     ports:
-      - 19092:9091
+      - 19094:9091
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka-1:9092,kafka-2:9093
 

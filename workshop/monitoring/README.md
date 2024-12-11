@@ -67,7 +67,16 @@ $docker compose ps
 ```
 
 Access to urls
-- http://localhost:9091
+- http://localhost:19091/metrics
+
+## Start Consumer
+```
+$docker compose up -d consumer
+$docker compose ps
+```
+
+Access metric url
+* http://localhost:19094/metrics
 
 
 

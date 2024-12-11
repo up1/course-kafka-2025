@@ -26,3 +26,9 @@ scrape_configs:
       - targets: ['producer:9091']
         labels:
           env: 'dev'
+  
+  - job_name: 'consumer'
+    static_configs:
+      - targets: ['consumer:9091']
+        labels:
+          env: 'dev'
