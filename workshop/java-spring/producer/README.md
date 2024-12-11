@@ -15,4 +15,9 @@ $curl --location 'http://localhost:8080/test' \
 }'
 ```
 
+## Build docker image
+```
+$docker image build -t producer:1.0 .
+```
+
 
