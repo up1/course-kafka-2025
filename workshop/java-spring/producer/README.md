@@ -17,6 +17,7 @@ $curl --location 'http://localhost:8080/test' \
 
 ## Build docker image
 ```
+$gradlew bootJar
 $docker image build -t producer:1.0 .
 ```
 
