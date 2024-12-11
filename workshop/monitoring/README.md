@@ -60,5 +60,14 @@ Access to urls
 - http://localhost:3000
 - http://localhost:3000/dashboards
 
+## Start Producer
+```
+$docker compose up -d producer
+$docker compose ps
+```
+
+Access to urls
+- http://localhost:8080
+
 
 

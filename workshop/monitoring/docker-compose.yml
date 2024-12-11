@@ -66,7 +66,7 @@ services:
     container_name: kafka-1
     hostname: kafka-1
     ports:
-      - "19092:19092"
+      - 19092:19092
       - 17074:7071
     environment:
       ZOOKEEPER_SASL_ENABLED: 'false'
@@ -117,7 +117,7 @@ services:
     image: prom/prometheus:v3.0.1
     container_name: prometheus
     ports:
-      - "9090:9090"
+      - 9090:9090
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus/alerts.yml:/etc/prometheus/alerts.yml
@@ -143,6 +143,26 @@ services:
       # disble login
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+  
+  # Kafka UI
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 18080:8080
+    environment:
+      DYNAMIC_CONFIG_ENABLED: 'true'
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-1:9092
+
+  # Producer
+  producer:
+    image: producer:1.0
+    ports:
+      - 8080:8080
+      - 19091:9091
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka-1:9092,kafka-2:9093
+
 
 volumes:
   prometheus_data:
