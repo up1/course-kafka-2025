@@ -1,6 +1,10 @@
 # Working with Kafka 4 + Kraft
 
 
+## 0. Kafka directories
+* Data=/opt/data/
+* Log=/opt/kafka/logs/
+
 ## 1. Install with Single node
 * Broker and Controller = 1 nodes
 
