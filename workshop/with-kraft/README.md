@@ -15,3 +15,4 @@
 ## Reference Websites
 * [Configure a Multi-Node](https://docs.confluent.io/platform/current/kafka/multi-node.html)
 * [Monitor and Track Metrics](https://docs.confluent.io/platform/current/installation/docker/operations/monitoring.html)
+* [Kafka KRaft Fast 3 Broker Deployment](https://github.com/mcagriaktas/kafka-lab/tree/main/kafka_kraft_3_broker)
