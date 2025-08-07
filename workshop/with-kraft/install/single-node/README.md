@@ -7,7 +7,7 @@ $docker compose up -d broker
 $docker compose ps
 ```
 
-## 2. Install Kafka UI
+## 2. Install [Kafka UI](https://github.com/provectus/kafka-ui)
 ```
 $docker compose up -d kafka-ui
 $docker compose ps
