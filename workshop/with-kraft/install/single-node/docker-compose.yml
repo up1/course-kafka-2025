@@ -37,3 +37,17 @@ services:
     command: ["--kafka.server=broker:9092"]
     ports:
       - 9308:9308 
+
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./configs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:12.0.4
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./configs/grafana/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml

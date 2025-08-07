@@ -1,0 +1,30 @@
+global:
+  # This is higher than RabbitMQ's collect_statistics_interval,
+  # but still close enough to capture metrics that were refreshed within this interval
+  # This value determines the range that we use with rate():
+  # https://www.robustperception.io/what-range-should-i-use-with-rate
+  scrape_interval: 5s # Default is every 1 minute.
+  # scrape_timeout: 10s # Default is 10 seconds.
+  # evaluation_interval: 60s # Default is every 1 minute.
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      # - 'alertmanager:9093'
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'kafka-exporter'
+    static_configs:
+      - targets:
+          - 'kafka-exporter:9308'
