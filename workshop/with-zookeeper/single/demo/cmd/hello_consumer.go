@@ -37,6 +37,7 @@ func main() {
 		"auto.offset.reset": "earliest",
 		// Whether or not we store offsets automatically.
 		"enable.auto.offset.store": false,
+		"enable.auto.commit":       false,
 	})
 
 	if err != nil {

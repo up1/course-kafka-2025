@@ -1,6 +1,8 @@
 # Kafka workshop
 * Fundamental 
 * Architecture of Kafka
+  * With Zookeeper
+  * Without Zookeeper (user Kraft)
 * Use cases and design patterns
 * Security
 * Monitoring
