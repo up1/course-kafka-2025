@@ -31,3 +31,9 @@ services:
       DYNAMIC_CONFIG_ENABLED: 'true'
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: broker:9092
+
+  kafka-exporter:
+    image: danielqsj/kafka-exporter 
+    command: ["--kafka.server=broker:9092"]
+    ports:
+      - 9308:9308 
