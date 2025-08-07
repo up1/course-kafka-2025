@@ -48,6 +48,7 @@ Access to Prometheus UI
 
 ### 3.2 Start Grafana
 * [Kafka Exporter Overview](https://grafana.com/grafana/dashboards/7589-kafka-exporter-overview/)
+* [Kafka Dashboard with JMX](https://grafana.com/grafana/dashboards/18276-kafka-dashboard/)
 
 ```
 $docker compose up -d grafana
@@ -59,3 +60,4 @@ Access to Grafana dashboard
   * Login with user=admin, password=admin
   * Create a new dashboard
     * Import id = 7589
+    * Import id = 18276

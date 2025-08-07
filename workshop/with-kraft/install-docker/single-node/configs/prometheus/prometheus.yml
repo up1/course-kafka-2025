@@ -28,3 +28,9 @@ scrape_configs:
     static_configs:
       - targets:
           - 'kafka-exporter:9308'
+  - job_name: "kafka"
+    static_configs:
+      - targets:
+          - 'broker:7071'
+        labels:
+          service: 'kafka'
