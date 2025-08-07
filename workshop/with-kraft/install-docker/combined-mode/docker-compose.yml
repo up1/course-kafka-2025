@@ -1,6 +1,6 @@
 services:
   kafka-1:
-    image: ${IMAGE}
+    image: apache/kafka:4.0.0
     hostname: kafka-1
     container_name: kafka-1
     ports:
@@ -24,7 +24,7 @@ services:
       KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
 
   kafka-2:
-    image: ${IMAGE}
+    image: apache/kafka:4.0.0
     hostname: kafka-2
     container_name: kafka-2
     ports:
@@ -48,7 +48,7 @@ services:
       KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
 
   kafka-3:
-    image: ${IMAGE}
+    image: apache/kafka:4.0.0
     hostname: kafka-3
     container_name: kafka-3
     ports:
@@ -70,3 +70,12 @@ services:
       KAFKA_SHARE_COORDINATOR_STATE_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_SHARE_COORDINATOR_STATE_TOPIC_MIN_ISR: 1
       KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
+  
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 8080:8080
+    environment:
+      DYNAMIC_CONFIG_ENABLED: 'true'
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-1:19092
