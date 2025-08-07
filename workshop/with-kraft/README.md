@@ -14,3 +14,4 @@
 
 ## Reference Websites
 * [Configure a Multi-Node](https://docs.confluent.io/platform/current/kafka/multi-node.html)
+* [Monitor and Track Metrics](https://docs.confluent.io/platform/current/installation/docker/operations/monitoring.html)
