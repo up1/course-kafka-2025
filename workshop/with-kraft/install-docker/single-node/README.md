@@ -21,6 +21,7 @@ Access to Kafka UI
   * Brokers
   * Topics
   * Consumer Groups
+* [JMX Exporter](https://github.com/prometheus/jmx_exporter)
 
 ### 3.1 Start Kafka exporter
 ```
