@@ -21,3 +21,4 @@
 * [Monitor and Track Metrics](https://docs.confluent.io/platform/current/installation/docker/operations/monitoring.html)
 * [Kafka KRaft Fast 3 Broker Deployment](https://github.com/mcagriaktas/kafka-lab/tree/main/kafka_kraft_3_broker)
 * [Burrow:: Kafka Consumer Lag Checking](https://github.com/linkedin/Burrow)
+* [JMX Agent](https://github.com/prometheus/jmx_exporter)
