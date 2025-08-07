@@ -20,3 +20,9 @@ $docker compose ps
 
 Access to Kafka UI
 * http://localhost:8080
+
+## 3. Try to connect to Kafka with consumer_group
+* [Download Kafka](https://kafka.apache.org/downloads)
+```
+$bin/kafka-console-consumer.sh --topic test --from-beginning --bootstrap-server localhost:29092 --group test-conusmer-group
+```
