@@ -1,0 +1,1 @@
+# Install 3 nodes with combined mode
