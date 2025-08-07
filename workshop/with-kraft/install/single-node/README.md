@@ -34,12 +34,7 @@ Access to Kafka Metric
 Try to connect to Kafka with consumer_group
 * [Download Kafka](https://kafka.apache.org/downloads)
 ```
-$kafka-console-consumer.sh \
-    --consumer.config /path/to/client.properties \
-    --bootstrap-server localhost:9092 \
-    --topic test \
-    --group test-conusmer-group \
-    --from-beginning
+$bin/kafka-console-consumer.sh --topic test --from-beginning --bootstrap-server localhost:9092 --group test-conusmer-group
 ```
 
 ### 3.2 Start Prometheus
