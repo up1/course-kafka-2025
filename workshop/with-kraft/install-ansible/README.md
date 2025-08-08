@@ -14,13 +14,21 @@ $ansible-playbook --version
   * JDK 17
 
 
-## 3. Setup User Deployment
+## 3. Setup Deployment with non-root
 | File | Description | Detail |
 |---------|-----|-----|
 | hosts | Root User Deployment | broker1, broker2 |
 | vars.yml | Variables file | broker1, broker2 |
 | install.yml| Main file |
 
+Try to setup in 2 nodes
 ```
-$ansible-playbook -i hosts install.yml --ask-become-pass
+$sudo mkdir /opt/kafka
+$sudo chown -R kafka:kafka /opt/kafka
+$sudo chmod 755 /opt/kafka
+```
+
+Run
+```
+$ansible-playbook -i hosts install.yml
 ```
