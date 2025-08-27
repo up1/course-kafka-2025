@@ -14,9 +14,10 @@ builder.Services.AddDbContext<UserDbContext>(options =>
 // We use a Singleton lifecycle for the producer as it's thread-safe and efficient.
 var producerConfig = new ProducerConfig
 {
-    BootstrapServers = builder.Configuration["Kafka:BootstrapServers"]
+    BootstrapServers = builder.Configuration["Kafka:BootstrapServers"],
+    CompressionType = CompressionType.Lz4,
 };
-builder.Services.AddSingleton<IProducer<Null, string>>(new ProducerBuilder<Null, string>(producerConfig).Build());
+builder.Services.AddSingleton(new ProducerBuilder<Null, string>(producerConfig).Build());
 
 
 // Add services to the container.
