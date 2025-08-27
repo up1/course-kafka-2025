@@ -76,3 +76,11 @@ $ansible-playbook -i hosts restart.yml
 ```
 $ansible-playbook -i hosts uninstall.yml
 ```
+
+## 5. Connect to cluster
+```
+$docker compose up -d
+```
+
+Access to Kafka UI
+* http://localhost:8080
