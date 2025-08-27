@@ -10,7 +10,9 @@ var config = new ConsumerConfig
 {
     // The address of your Kafka broker(s)
     BootstrapServers = "152.42.184.235:9092",
-    
+
+    // Disable automatic offset committing
+    EnableAutoCommit = false,
 
     // A unique identifier for this consumer group.
     // All consumers with the same GroupId will work together to consume a topic.
@@ -74,10 +76,12 @@ using (var consumer = new ConsumerBuilder<Ignore, string>(config).Build())
                     }
                     else
                     {
-                         Console.ForegroundColor = ConsoleColor.Yellow;
-                         Console.WriteLine($"--> Received unknown event or malformed message: {messageValue}");
-                         Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine($"--> Received unknown event or malformed message: {messageValue}");
+                        Console.ResetColor();
                     }
+                    // Manually commit the offset after processing the message
+                    consumer.Commit(consumeResult);
                 }
                 catch (JsonException jsonEx)
                 {
