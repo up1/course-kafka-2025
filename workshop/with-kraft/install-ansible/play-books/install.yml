@@ -19,9 +19,11 @@
       set_fact:
         java_ok: "{{ java_check.stdout is regex('openjdk (8|11|17)') }}"
 
-    - name: Show error if Java version is incorrect
-      fail:
-        msg: "Java version is not compatible. Please install Java 8 or Java 11-17"
+    - name: Install java 17 when not exist.
+      apt:
+        name: openjdk-17-jdk
+        state: present
+        update_cache: yes
       when: not java_ok | bool
 
     - name: Check if Kafka base directory exists
