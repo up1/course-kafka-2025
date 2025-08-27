@@ -16,6 +16,7 @@ var producerConfig = new ProducerConfig
 {
     BootstrapServers = builder.Configuration["Kafka:BootstrapServers"],
     CompressionType = CompressionType.Lz4,
+    Acks = Acks.Leader,
 };
 builder.Services.AddSingleton(new ProducerBuilder<Null, string>(producerConfig).Build());
 
