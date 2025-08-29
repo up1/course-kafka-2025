@@ -45,6 +45,9 @@ scrape_configs:
 - job_name: "prometheus"
   static_configs:
   - targets: ["localhost:9090"]
+- job_name: "kafka-exporter"
+  static_configs:
+  - targets: ["localhost:9308"]
 ```
 
 ### 3.2 Create file `rules.yml`
@@ -96,6 +99,16 @@ Access to Kafka metric
 Check status of Kafka at Promethus UI
 * http://localhost:9090/targets
 
+## 4.3 [Kafka Exporter](https://github.com/danielqsj/kafka_exporter)
+```
+$cd kafka-exporter
+$./kafka_exporter --kafka.server=localhost:9092
+```
+
+Access to kafka exporter metric
+* http://localhost:9308/
+
+
 ## 5. Install and Start Grafana server
 
 ### 5.1 Start grafana server
@@ -115,4 +128,7 @@ Access to Grafana UI
 
 
 ### 5.3 Create your dashboard
+* [Kafka export overview](https://grafana.com/grafana/dashboards/7589-kafka-exporter-overview/)
 * [Copy kafka dashboard](https://github.com/strimzi/strimzi-kafka-operator/tree/main/examples/metrics/grafana-dashboards)
+  * strimzi-kafka.json
+  * strimzi-kraft.json
