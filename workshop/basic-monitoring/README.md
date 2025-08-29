@@ -1,5 +1,6 @@
 # Monitoring Apache Kafka
 * [Prometheus](https://prometheus.io/)
+* [Kafka Exporter](https://github.com/danielqsj/kafka_exporter)
 * [Prometheus JMX Expoter](https://github.com/prometheus/jmx_exporter)
 * [Prometheus Alertmanager](https://prometheus.io/docs/alerting/latest/alertmanager/)
 * [Grafana](https://grafana.com/)
@@ -8,6 +9,7 @@
 ## 1. Download softwares
 * [Prometheus](https://prometheus.io/download/)
 * [Prometheus Alertmanager](https://prometheus.io/download/)
+* [Kafka Exporter](https://github.com/danielqsj/kafka_exporter/releases)
 * [Prometheus JMX Expoter](https://github.com/prometheus/jmx_exporter/releases)
 * [Grafana OSS](https://grafana.com/grafana/download?pg=oss-graf&plcmt=hero-btn-1&edition=oss)
   * [List of dashboard](https://github.com/strimzi/strimzi-kafka-operator/tree/main/examples/metrics)
@@ -99,7 +101,7 @@ Access to Kafka metric
 Check status of Kafka at Promethus UI
 * http://localhost:9090/targets
 
-## 4.3 [Kafka Exporter](https://github.com/danielqsj/kafka_exporter)
+## 4.3 Start Kafka Exporter
 ```
 $cd kafka-exporter
 $./kafka_exporter --kafka.server=localhost:9092
