@@ -7,13 +7,13 @@ using System.Text.Json;
 public class UsersController : ControllerBase
 {
     private readonly UserDbContext _context;
-    private readonly IProducer<Null, string> _producer;
+    private readonly IProducer<string, string> _producer;
     private readonly IConfiguration _configuration;
     private readonly ILogger<UsersController> _logger;
 
     public UsersController(
         UserDbContext context,
-        IProducer<Null, string> producer,
+        IProducer<string, string> producer,
         IConfiguration configuration,
         ILogger<UsersController> logger)
     {
@@ -66,10 +66,15 @@ public class UsersController : ControllerBase
 
         try
         {
-            // Produce the message to the Kafka topic
+            // Produce the message to the Kafka topic 
+            // Config message key
+            var key = "new-1234";
             var deliveryResult = await _producer.ProduceAsync(
                 kafkaTopic,
-                new Message<Null, string> { Value = eventMessage });
+                new Message<string, string> {
+                    Key = key,
+                    Value = eventMessage
+                });
 
             _logger.LogInformation(
                 "Kafka message sent to topic '{Topic}', partition {Partition}, offset {Offset}",

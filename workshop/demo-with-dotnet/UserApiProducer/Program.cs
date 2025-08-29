@@ -18,7 +18,7 @@ var producerConfig = new ProducerConfig
     CompressionType = CompressionType.Lz4,
     Acks = Acks.Leader,
 };
-builder.Services.AddSingleton(new ProducerBuilder<Null, string>(producerConfig).Build());
+builder.Services.AddSingleton(new ProducerBuilder<string, string>(producerConfig).Build());
 
 
 // Add services to the container.
