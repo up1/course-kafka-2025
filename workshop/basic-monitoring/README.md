@@ -86,7 +86,7 @@ $export KAFKA_OPTS="-javaagent:$DEMO_KAFKA_HOME/jmx_prometheus_javaagent-1.4.0.j
 For Windows
 ```
 $set DEMO_KAFKA_HOME=your-path-to-jarfile
-$set KAFKA_OPTS="-javaagent:%DEMO_KAFKA_HOME%/jmx_prometheus_javaagent-1.4.0.jar=9101:%DEMO_KAFKA_HOME%/kafka-kraft-3_0_0.yml"
+$set KAFKA_OPTS=-javaagent:%DEMO_KAFKA_HOME%\\jmx_prometheus_javaagent-1.4.0.jar=9101:%DEMO_KAFKA_HOME%\\kafka-kraft-3_0_0.yml
 ```
 
 ### 4.2 Start Kafka server
