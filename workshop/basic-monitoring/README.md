@@ -80,13 +80,13 @@ Go to prometheus UI
 For MAC OS and Linux
 ```
 $export DEMO_KAFKA_HOME=/Users/somkiatpuisungnoen/data/slide/kafka/kafka-2024/workshop/basic-monitoring/software
-$export export KAFKA_OPTS="-javaagent:$DEMO_KAFKA_HOME/jmx_prometheus_javaagent-1.4.0.jar=9101:$DEMO_KAFKA_HOME/kafka-kraft-3_0_0.yml"
+$export KAFKA_OPTS="-javaagent:$DEMO_KAFKA_HOME/jmx_prometheus_javaagent-1.4.0.jar=9101:$DEMO_KAFKA_HOME/kafka-kraft-3_0_0.yml"
 ```
 
 For Windows
 ```
 $set DEMO_KAFKA_HOME=your-path-to-jarfile
-$set export KAFKA_OPTS="-javaagent:%DEMO_KAFKA_HOME%/jmx_prometheus_javaagent-1.4.0.jar=9101:%DEMO_KAFKA_HOMEHOME%/kafka-kraft-3_0_0.yml"
+$set KAFKA_OPTS="-javaagent:%DEMO_KAFKA_HOME%/jmx_prometheus_javaagent-1.4.0.jar=9101:%DEMO_KAFKA_HOMEHOME%/kafka-kraft-3_0_0.yml"
 ```
 
 ### 4.2 Start Kafka server
